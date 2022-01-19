@@ -100,6 +100,6 @@ describe('Module', () => {
     const commiting: Lecture = new Lecture('Commiting', 'https://youtube.com/commiting')
     module.add(commiting)
     module.remove(branching)
-    expect(module.numberOfLectures).toEqual(0)
+    expect(module.numberOfLectures).toEqual(1)
   })
 })
