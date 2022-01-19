@@ -1,4 +1,5 @@
 import { Module } from './module'
+import { moveInArray } from './utils'
 
 export class Course {
   private modules: Array<Module> = []
@@ -16,5 +17,18 @@ export class Course {
 
   includes (module: Module): boolean {
     return this.modules.includes(module)
+  }
+
+  move (module: Module, to: number): void {
+    const from = this.position(module)
+    moveInArray(this.modules, from - 1, to - 1)
+  }
+
+  position (module: Module): number {
+    const moduleInCourse = this.modules.find(mod => mod.name === module.name)
+    if (moduleInCourse === undefined) {
+      return undefined
+    }
+    return this.modules.indexOf(moduleInCourse) + 1
   }
 }
