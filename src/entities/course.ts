@@ -1,3 +1,4 @@
+import { Lecture } from '.'
 import { Module } from './module'
 import { moveInArray } from './utils'
 
@@ -39,5 +40,12 @@ export class Course {
       return undefined
     }
     return this.modules.indexOf(moduleInCourse) + 1
+  }
+
+  moveLecture (lecture: Lecture, fromModule: Module, toModule: Module, position: number): void {
+    fromModule.remove(lecture)
+    toModule.add(lecture)
+    const currentLectureposition = toModule.position(lecture)
+    if (currentLectureposition !== position) toModule.move(lecture, position)
   }
 }
