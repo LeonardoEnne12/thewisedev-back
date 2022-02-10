@@ -15,10 +15,10 @@ describe('Module', () => {
     const otherLecture: Lecture = new Lecture('Branching', 'https://youtube.com/3456')
     module.add(lecture)
     module.add(otherLecture)
-    const error = module.add(otherLecture).value as ExistingElementError
+    const error = module.add(otherLecture).value
     expect(module.includes(lecture)).toBeTruthy()
     expect(module.numberOfLectures).toEqual(1)
-    expect(error.message).toBeInstanceOf(ExistingElementError)
+    expect(error).toBeInstanceOf(ExistingElementError)
   })
 
   it('should be able to rearrange the order of lectures', () => {
