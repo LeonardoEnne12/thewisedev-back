@@ -39,13 +39,6 @@ describe('Module', () => {
     expect(module.position(branching).value).toBe(3)
   })
 
-  it('should handle unexisting lecture', () => {
-    const module = new Module('Fundamentals')
-    const branching: Lecture = new Lecture('Branching', 'https://youtube.com/branching')
-
-    expect(module.position(branching)).toBeUndefined()
-  })
-
   it('should handle exceeding position while rearranging', () => {
     const module = new Module('Fundamentals')
     const branching: Lecture = new Lecture('Branching', 'https://youtube.com/branching')
