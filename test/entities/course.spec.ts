@@ -138,8 +138,9 @@ describe('Course', () => {
     const branchingLecture: Lecture = new Lecture('Branching', 'https://youtube.com/1234')
     fundamentalsModule.add(branchingLecture)
     course.add(fundamentalsModule)
-    course.remove(fundamentalsModule)
+    const ok = course.remove(fundamentalsModule).value as void
     expect(course.numberOfModules).toEqual(0)
+    expect(ok).toBeUndefined()
   })
 
   it('should not be able to remove unexisting module', () => {
