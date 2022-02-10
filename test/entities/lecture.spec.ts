@@ -43,4 +43,11 @@ describe('Lecture', () => {
     expect(lecture.includes(branchingPdf)).toBeTruthy()
     expect(error).toBeInstanceOf(ExistingElementError)
   })
+
+  it('should not be able to determine paosition of unexisting material', () => {
+    const lecture: Lecture = new Lecture('Branching', 'https://youtube.com/1234')
+    const branchingPdf: Material = new Pdf('Branching', 'https://storage/branching.pdf')
+    const error = lecture.position(branchingPdf).value as Error
+    expect(error).toBeInstanceOf(UnexistingElementError)
+  })
 })
