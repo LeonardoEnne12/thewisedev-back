@@ -94,7 +94,6 @@ describe('Module', () => {
   it('should not be able to determine position of unexisting lecture', () => {
     const module = new Module('Fundamentals')
     const lecture: Lecture = new Lecture('Branching', 'https://youtube.com/1234')
-    module.add(lecture)
     const error = module.position(lecture).value as Error
     expect(error).toBeInstanceOf(UnexistingElementError)
   })
