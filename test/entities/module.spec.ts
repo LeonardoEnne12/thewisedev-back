@@ -1,5 +1,6 @@
 import { Lecture, Module } from '../../src/entities'
 import { ExistingElementError } from '../../src/entities/errors/existing-element-error'
+import { UnexistingElementError } from '../../src/entities/errors/unexisting-element-error'
 
 describe('Module', () => {
   it('should be able to add lectures to modules', () => {
@@ -92,7 +93,8 @@ describe('Module', () => {
     const branching: Lecture = new Lecture('Branching', 'https://youtube.com/branching')
     const commiting: Lecture = new Lecture('Commiting', 'https://youtube.com/commiting')
     module.add(commiting)
-    module.remove(branching)
+    const error = module.remove(branching).value as Error
+    expect(error).toBeInstanceOf(UnexistingElementError)
     expect(module.numberOfLectures).toEqual(1)
   })
 })
