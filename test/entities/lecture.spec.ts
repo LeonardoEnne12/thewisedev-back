@@ -1,5 +1,6 @@
 import { Lecture } from '../../src/entities'
 import { ExistingElementError } from '../../src/entities/errors/existing-element-error'
+import { UnexistingElementError } from '../../src/entities/errors/unexisting-element-error'
 import { Link } from '../../src/entities/link'
 import { Material } from '../../src/entities/material'
 import { Pdf } from '../../src/entities/pdf'
@@ -18,6 +19,13 @@ describe('Lecture', () => {
     lecture.add(branchingPdf)
     lecture.remove(branchingPdf)
     expect(lecture.includes(branchingPdf)).toBeFalsy()
+  })
+
+  it('should not be able to remove unexting material', () => {
+    const lecture: Lecture = new Lecture('Branching', 'https://youtube.com/1234')
+    const branchingPdf: Material = new Pdf('Branching', 'https://storage/branching.pdf')
+    const error = lecture.remove(branchingPdf).value as Error
+    expect(error).toBeInstanceOf(UnexistingElementError)
   })
 
   it('should be able to add further links to lectures', () => {
