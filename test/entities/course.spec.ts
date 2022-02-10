@@ -50,9 +50,9 @@ describe('Course', () => {
 
     course.move(courseOverviewModule, 1)
 
-    expect(course.position(courseOverviewModule)).toBe(1)
-    expect(course.position(fundamentalsModule)).toBe(2)
-    expect(course.position(gitModule)).toBe(3)
+    expect(course.position(courseOverviewModule).value).toBe(1)
+    expect(course.position(fundamentalsModule).value).toBe(2)
+    expect(course.position(gitModule).value).toBe(3)
   })
 
   it('should handle exceeding position while rearranging', () => {
@@ -75,9 +75,9 @@ describe('Course', () => {
 
     course.move(fundamentalsModule, 10)
 
-    expect(course.position(fundamentalsModule)).toBe(1)
-    expect(course.position(courseOverviewModule)).toBe(2)
-    expect(course.position(gitModule)).toBe(3)
+    expect(course.position(fundamentalsModule).value).toBe(1)
+    expect(course.position(courseOverviewModule).value).toBe(2)
+    expect(course.position(gitModule).value).toBe(3)
   })
 
   it('should handle negative position while rearranging', () => {
@@ -100,9 +100,9 @@ describe('Course', () => {
 
     course.move(courseOverviewModule, -1)
 
-    expect(course.position(fundamentalsModule)).toBe(1)
-    expect(course.position(courseOverviewModule)).toBe(2)
-    expect(course.position(gitModule)).toBe(3)
+    expect(course.position(fundamentalsModule).value).toBe(1)
+    expect(course.position(courseOverviewModule).value).toBe(2)
+    expect(course.position(gitModule).value).toBe(3)
   })
 
   it('should be able to move a lecture to a different module', () => {
@@ -129,7 +129,7 @@ describe('Course', () => {
 
     expect(fundamentalsModule.numberOfLectures).toEqual(0)
     expect(gitModule.numberOfLectures).toEqual(3)
-    expect(gitModule.position(branchingLecture)).toEqual(2)
+    expect(gitModule.position(branchingLecture).value).toEqual(2)
   })
 
   it('should be able to remove module', () => {
@@ -149,5 +149,15 @@ describe('Course', () => {
     const error = course.remove(fundamentalsModule).value as Error
     expect(error).toBeInstanceOf(UnexistingElementError)
     expect(error.message).toEqual('Element does not exist.')
+  })
+
+  it('should not be able to determine position of unexisting module', () => {
+    const course = new Course('azure-devops',
+      'Continuous Delivery and DevOps with Azure DevOps: Source Control with Git')
+    const module = new Module('Fundamentals')
+    const lecture: Lecture = new Lecture('Branching', 'https://youtube.com/1234')
+    module.add(lecture)
+    const error = course.position(module).value as Error
+    expect(error).toBeInstanceOf(UnexistingElementError)
   })
 })
