@@ -25,7 +25,7 @@ describe('Module', () => {
     module.add(lecture)
     module.add(otherLecture)
     expect(module.includes(lecture)).toBeTruthy()
-    expect(module.includes(otherLecture)).toBeFalsy()
+    expect(module.numberOfLectures).toEqual(1)
   })
 
   it('should be able to rearrange the order of lectures', () => {
