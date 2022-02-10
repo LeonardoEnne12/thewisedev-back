@@ -1,47 +1,47 @@
 import { Either, left, right } from '../shared/either'
-import { Part } from './part'
-import { ExistingPartError } from './errors/existing-part-error'
+import { Element } from './element'
+import { ExistingElementError } from './errors/existing-element-error'
 
-export class Container<T extends Part> {
-  private readonly parts: Array<T> = []
+export class Container<T extends Element> {
+  private readonly elements: Array<T> = []
 
-  get numberOfParts (): number {
-    return this.parts.length
+  get numberOfElements (): number {
+    return this.elements.length
   }
 
-  add (part: T): Either<ExistingPartError, void> {
-    if (!this.includes(part)) {
-      return right(this.push(part))
+  add (element: T): Either<ExistingElementError, void> {
+    if (!this.includes(element)) {
+      return right(this.push(element))
     }
-    return left(new ExistingPartError())
+    return left(new ExistingElementError())
   }
 
-  private push (part: T): void {
-    this.parts.push(part)
+  private push (element: T): void {
+    this.elements.push(element)
   }
 
-  includes (part: T): boolean {
-    return this.parts.find(p => p.equals(part) === true) !== undefined
+  includes (element: T): boolean {
+    return this.elements.find(p => p.equals(element) === true) !== undefined
   }
 
-  move (part: T, to: number): void {
-    if (to > this.parts.length || to < 1) return
-    const from = this.position(part)
-    moveInArray(this.parts, from - 1, to - 1)
+  move (element: T, to: number): void {
+    if (to > this.elements.length || to < 1) return
+    const from = this.position(element)
+    moveInArray(this.elements, from - 1, to - 1)
   }
 
-  position (part: T): number {
-    const partInContainer = this.parts.find(p => p.equals(part))
+  position (element: T): number {
+    const partInContainer = this.elements.find(p => p.equals(element))
     if (partInContainer === undefined) {
       return undefined
     }
-    return this.parts.indexOf(partInContainer) + 1
+    return this.elements.indexOf(partInContainer) + 1
   }
 
-  remove (part: T): void {
-    if (!this.includes(part)) return
-    const positionInArray = this.position(part) - 1
-    this.parts.splice(positionInArray, 1)
+  remove (element: T): void {
+    if (!this.includes(element)) return
+    const positionInArray = this.position(element) - 1
+    this.elements.splice(positionInArray, 1)
   }
 }
 
