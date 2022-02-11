@@ -48,11 +48,32 @@ describe('Course', () => {
     course.add(courseOverviewModule)
     course.add(gitModule)
 
-    course.move(courseOverviewModule, 1)
+    const ok = course.move(courseOverviewModule, 1).value as void
 
     expect(course.position(courseOverviewModule).value).toBe(1)
     expect(course.position(fundamentalsModule).value).toBe(2)
     expect(course.position(gitModule).value).toBe(3)
+    expect(ok).toBeUndefined()
+  })
+
+  it('should not be able to rearrange order of unexisting module', () => {
+    const course = new Course('azure-devops', 'Continuous Delivery and DevOps with Azure DevOps: Source Control with Git')
+    const fundamentalsModule = new Module('Fundamentals')
+    const branchingLecture: Lecture = new Lecture('Branching', 'https://youtube.com/1234')
+    fundamentalsModule.add(branchingLecture)
+
+    const courseOverviewModule = new Module('Course Overview')
+    const courseOverviewLecture = new Lecture('Course Overview', 'https://youtube.com/3456')
+    courseOverviewModule.add(courseOverviewLecture)
+
+    const gitModule = new Module('Source Control with Git on Azure DevOps')
+    const introductionLecture = new Lecture('Introduction', 'https://youtube.com/6789')
+    gitModule.add(introductionLecture)
+
+    course.add(fundamentalsModule)
+    course.add(courseOverviewModule)
+    const error = course.move(gitModule, 1).value as Error
+    expect(error).toBeInstanceOf(UnexistingElementError)
   })
 
   it('should handle exceeding position while rearranging', () => {
