@@ -39,6 +39,19 @@ describe('Module', () => {
     expect(module.position(branching).value).toBe(3)
   })
 
+  it('should not be able to move unexisting lectures', () => {
+    const module = new Module('Fundamentals')
+    const branching: Lecture = new Lecture('Branching', 'https://youtube.com/branching')
+    const commiting: Lecture = new Lecture('Commiting', 'https://youtube.com/commiting')
+    const pushing: Lecture = new Lecture('Pushing', 'https://youtube.com/pushing')
+
+    module.add(branching)
+    module.add(commiting)
+
+    const error = module.move(pushing, 1).value as Error
+    expect(error).toBeInstanceOf(UnexistingElementError)
+  })
+
   it('should handle exceeding position while rearranging', () => {
     const module = new Module('Fundamentals')
     const branching: Lecture = new Lecture('Branching', 'https://youtube.com/branching')
